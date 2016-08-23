@@ -4,17 +4,18 @@
 process.chdir(__dirname);
 process.env.NODE_CONFIG_DIR = __dirname + '/' + 'config';
 
+const fs = require('fs');
+
 const koa = require('koa');
 const config = require('config');
 const bodyParser = require('koa-bodyparser');
 const compress = require('koa-compress');
 const bunyanLogger = require('koa-bunyan-logger');
 const logger = require('koa-logger');
+const mysql = require('./middleware/mysql');
+const app = new koa();
 
-let app = new koa();
-let event = require('./routers/event');
-app.proxy = true;
-
+//全局错误处理
 app.use(async(ctx, next) => {
   try {
     await next();
@@ -28,12 +29,25 @@ app.use(async(ctx, next) => {
   }
 });
 
+app.proxy = true;
 app.use(bodyParser());
 app.use(compress());
 app.use(logger());
 app.use(bunyanLogger(config.logger));
+app.use(mysql(config.mysql));
 
-app.use(event.routes());
+(function loadRoutes() {
+  let _path = './routers';
+  let files = fs.readdirSync(_path);
+  files = files.filter(function (f) {
+    return /[^\.].*\.js$/.test(f);
+  });
+
+  files.forEach(function (f) {
+    let router = require([_path, f].join('/'));
+    app.use(router.routes());
+  });
+})();
 
 app.listen(config.port);
 console.log('The app listening ' + config.port);
