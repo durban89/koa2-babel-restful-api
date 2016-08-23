@@ -1,0 +1,25 @@
+{
+  /**
+   * Application configuration section
+   * http://pm2.keymetrics.io/docs/usage/application-declaration/
+   */
+  "apps": [
+
+    // First application
+    {
+      "name": "Event-API",
+      "script": "./app.babel.js",
+      "error_file": "log/wap.out",
+      "out_file": "log/wap.out",
+      "watch": true,
+      "args": ["--harmony"],
+      "ignore_watch": ["node_modules"],
+      "env": {
+        "NODE_APP_INSTANCE": "",
+        "NODE_ENV": "dev",
+      }
+    },
+
+    // Second application
+  ]
+}
