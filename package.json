@@ -1,0 +1,19 @@
+{
+  "name": "stat.qeeniao.com",
+  "version": "1.0.0",
+  "description": "Event Stat",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha ./test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "[git@gitlab.qeeniao.com:2222]:api/stat.qeeniao.com.git"
+  },
+  "keywords": [
+    "event",
+    "stat"
+  ],
+  "author": "qeeniao",
+  "license": "MIT"
+}
