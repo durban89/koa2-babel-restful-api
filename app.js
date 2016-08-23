@@ -1,5 +1,5 @@
 'use strict';
-require('babel-core/register');
+
 //环境配置
 process.chdir(__dirname);
 process.env.NODE_CONFIG_DIR = __dirname + '/' + 'config';
